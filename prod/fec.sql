@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS campaign_finance;
+CREATE DATABASE IF NOT EXISTS fec;
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_committee_master (
+CREATE TABLE IF NOT EXISTS fec.pac_committee_master (
     cmte_id STRING COMMENT 'Committee Identification',
     cmte_nm STRING COMMENT 'Committee Name',
     tres_nm STRING COMMENT 'Treasurer Name',
@@ -28,7 +28,7 @@ committee address. The file also includes information about what type of committ
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCommitteeMaster.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_candidate_master (
+CREATE TABLE IF NOT EXISTS fec.pac_candidate_master (
     cand_id STRING COMMENT 'Candidate Identification',
     cand_name STRING COMMENT 'Candidate Name',
     cand_pty_affiliation STRING COMMENT 'Party Affiliation',
@@ -54,7 +54,7 @@ identification number, candidate name, office, election year and address.
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCandidateMaster.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_to_pac_contributions (
+CREATE TABLE IF NOT EXISTS fec.pac_to_pac_contributions (
     cmte_id STRING COMMENT 'Filer Identification Number',
     amndt_ind STRING COMMENT 'Amendment Indicator Indicates if the report being filed is new (N), an amendment (A) to a previous report, or a termination (T) report.',
     rpt_tp STRING COMMENT 'Report Type Indicates the type of report filed. List of report type codes',
@@ -84,7 +84,7 @@ two-year election cycle.
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCommitteetoCommittee.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_to_candidate_contributions (
+CREATE TABLE IF NOT EXISTS fec.pac_to_candidate_contributions (
     cmte_id STRING COMMENT 'Filer Identification Number',
     amndt_ind STRING COMMENT 'Amendment Indicator Indicates if the report being filed is new (N), an amendment (A) to a previous report, or a termination (T) report.',
     rpt_tp STRING COMMENT 'Report Type Indicates the type of report filed. List of report type codes',
@@ -114,7 +114,7 @@ by a PAC, party committee, candidate committee, or other federal committee to a 
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryContributionstoCandidates.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_individual_contributions (
+CREATE TABLE IF NOT EXISTS fec.individual_contributions (
     cmte_id STRING COMMENT 'Filer Identification Number',
     amndt_ind STRING COMMENT 'Amendment Indicator Indicates if the report being filed is new (N), an amendment (A) to a previous report, or a termination (T) report.',
     rpt_tp STRING COMMENT 'Report Type Indicates the type of report filed. List of report type codes',
@@ -142,7 +142,7 @@ COMMENT 'The individual contributions table contains each contribution from an i
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryContributionsbyIndividuals.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_campaign_summaries_current (
+CREATE TABLE IF NOT EXISTS fec.pac_campaign_summaries_current (
     cand_id STRING COMMENT 'Candidate Identification',
     cand_name STRING COMMENT 'Candidate Name',
     cand_ici STRING COMMENT 'Incumbent Challenger Status',
@@ -198,7 +198,7 @@ receipts and total disbursements to obtain a more accurate value for actual acti
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryWEBL.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_campaign_summaries_all (
+CREATE TABLE IF NOT EXISTS fec.pac_campaign_summaries_all (
     cand_id STRING COMMENT 'Candidate Identification',
     cand_name STRING COMMENT 'Candidate Name',
     cand_ici STRING COMMENT 'Incumbent Challenger Status',
@@ -252,7 +252,7 @@ from total receipts and total disbursements to obtain a more accurate value for 
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryWEBALL.shtml';
 
 
-CREATE TABLE IF NOT EXISTS campaign_finance.pac_summaries (
+CREATE TABLE IF NOT EXISTS fec.pac_summaries (
     cmte_id STRING COMMENT 'Committee Identification',
     cmte_nm STRING COMMENT 'Committee Name',
     cmte_tp STRING COMMENT 'Committee Type',
@@ -290,12 +290,3 @@ expenditures made, etc.
 
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryWEBK.shtml';
 
-
-INSERT OVERWRITE TABLE campaign_finance.pac_committee_master SELECT * FROM campaign_finance_external.pac_committee_master;
-INSERT OVERWRITE TABLE campaign_finance.pac_candidate_master SELECT * FROM campaign_finance_external.pac_candidate_master;
-INSERT OVERWRITE TABLE campaign_finance.pac_to_pac_contributions SELECT * FROM campaign_finance_external.pac_to_pac_contributions;
-INSERT OVERWRITE TABLE campaign_finance.pac_to_candidate_contributions SELECT * FROM campaign_finance_external.pac_to_candidate_contributions;
-INSERT OVERWRITE TABLE campaign_finance.pac_individual_contributions SELECT * FROM campaign_finance_external.pac_individual_contributions;
-INSERT OVERWRITE TABLE campaign_finance.pac_campaign_summaries_current SELECT * FROM campaign_finance_external.pac_campaign_summaries_current;
-INSERT OVERWRITE TABLE campaign_finance.pac_campaign_summaries_all SELECT * FROM campaign_finance_external.pac_campaign_summaries_all;
-INSERT OVERWRITE TABLE campaign_finance.pac_summaries SELECT * FROM campaign_finance_external.pac_summaries;

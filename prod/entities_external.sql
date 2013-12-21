@@ -9,14 +9,14 @@ CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.candidate_ids(
     fec_cand_id STRING
 )
 ROW FORMAT SERDE 'com.bizo.hive.serde.csv.CSVSerde'
-LOCATION 's3n://polianaprod/entities/candidate_contribution_ids/'; 
+LOCATION 's3n://poliana.prod/entities/candidate_contribution_ids/'; 
 
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.congressional_committee_ids( 
     code STRING,
     cmte_name STRING
 )
 row format serde 'com.bizo.hive.serde.csv.CSVSerde'
-LOCATION 's3n://polianaprod/entities/congressional_committee_ids/'; 
+LOCATION 's3n://poliana.prod/entities/congressional_committee_ids/'; 
 
 --SCHEMA BROKEN!!! TODO
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.current_committee_membership_json(
@@ -27,7 +27,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.current_committee_membersh
 )
 ROW FORMAT SERDE 'com.proofpoint.hive.serde.JsonSerde'
  WITH SERDEPROPERTIES ('errors.ignore' = 'true')
-LOCATION 's3n://polianaprod/entities/current_committee_members/';
+LOCATION 's3n://poliana.prod/entities/current_committee_members/';
 
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.current_committees_nested(
     rss_url STRING,
@@ -47,7 +47,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.current_committees_nested(
 )
 ROW FORMAT SERDE 'com.proofpoint.hive.serde.JsonSerde'
  WITH SERDEPROPERTIES ('errors.ignore' = 'true')
-LOCATION 's3n://polianaprod/entities/current_committees/';
+LOCATION 's3n://poliana.prod/entities/current_committees/';
 
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.legislators(
     first_name STRING,
@@ -72,7 +72,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.legislators(
     birthday INT,
     religion STRING
 )
-LOCATION 's3n://polianaprod/entities/legislators_flat/';
+LOCATION 's3n://poliana.prod/entities/legislators_flat/';
 
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.legislators_flat_terms (
     first_name STRING,
@@ -105,13 +105,13 @@ CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.legislators_flat_terms (
     district STRING,
     term_state_rank STRING
 )
-LOCATION 's3n://polianaprod/entities/legislators_flat_terms/';
+LOCATION 's3n://poliana.prod/entities/legislators_flat_terms/';
 
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.senate_terms LIKE entities_external.legislators_flat_terms
- LOCATION 's3n://polianaprod/entities/senate_terms/';
+ LOCATION 's3n://poliana.prod/entities/senate_terms/';
 
 CREATE EXTERNAL TABLE IF NOT EXISTS entities_external.house_terms LIKE entities_external.legislators_flat_terms
- LOCATION 's3n://polianaprod/entities/house_terms/';
+ LOCATION 's3n://poliana.prod/entities/house_terms/';
 
 CREATE EXTERNAL TABLE entities_external.recip_id_to_bioguide_ids (
     bioguide_id STRING,
@@ -126,4 +126,4 @@ CREATE EXTERNAL TABLE entities_external.recip_id_to_bioguide_ids (
     contact_form STRING
 )
 ROW FORMAT SERDE 'com.bizo.hive.serde.csv.CSVSerde'
-LOCATION 's3n://polianaprod/entities/recip_ids_to_bioguide/';
+LOCATION 's3n://poliana.prod/entities/recip_ids_to_bioguide/';

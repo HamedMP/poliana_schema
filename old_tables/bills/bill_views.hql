@@ -1,3 +1,5 @@
+-- TODO: Clean and comment
+
 CREATE VIEW bills.view_bill_overview_expl_cosponsors (
     bill_id,
     official_title,

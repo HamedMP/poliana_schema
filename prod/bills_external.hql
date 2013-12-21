@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS bills_external.bills_json_test (
+CREATE EXTERNAL TABLE IF NOT EXISTS bills_external.bills_json (
     actions ARRAY<STRUCT<
         acted_at: STRING,
         committee: STRING,

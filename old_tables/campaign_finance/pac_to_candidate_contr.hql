@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE campaign_finance.pac_to_candidate_contributions_external (
+CREATE EXTERNAL TABLE campaign_finance_external.pac_to_candidate_contributions (
     cycle STRING,
     fec_rec_no STRING,
     pac_id STRING,

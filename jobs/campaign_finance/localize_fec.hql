@@ -1,0 +1,8 @@
+INSERT OVERWRITE TABLE campaign_finance.pac_committee_master SELECT * FROM campaign_finance_external.pac_committee_master;
+INSERT OVERWRITE TABLE campaign_finance.pac_candidate_master SELECT * FROM campaign_finance_external.pac_candidate_master;
+INSERT OVERWRITE TABLE campaign_finance.pac_to_pac_contributions SELECT * FROM campaign_finance_external.pac_to_pac_contributions;
+INSERT OVERWRITE TABLE campaign_finance.pac_to_candidate_contributions SELECT * FROM campaign_finance_external.pac_to_candidate_contributions;
+INSERT OVERWRITE TABLE campaign_finance.pac_individual_contributions SELECT * FROM campaign_finance_external.pac_individual_contributions;
+INSERT OVERWRITE TABLE campaign_finance.pac_campaign_summaries_current SELECT * FROM campaign_finance_external.pac_campaign_summaries_current;
+INSERT OVERWRITE TABLE campaign_finance.pac_campaign_summaries_all SELECT * FROM campaign_finance_external.pac_campaign_summaries_all;
+INSERT OVERWRITE TABLE campaign_finance.pac_summaries SELECT * FROM campaign_finance_external.pac_summaries;

@@ -1,4 +1,4 @@
-CREATE EXTERNAL TABLE campaign_finance.candidate_ids (
+CREATE EXTERNAL TABLE campaign_finance_external.candidate_ids (
     recipient_ext_id STRING,
     crp_name STRING,
     party STRING,

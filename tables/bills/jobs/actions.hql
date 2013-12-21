@@ -1,6 +1,5 @@
-INSERT OVERWRITE TABLE bills_actions PARTITION (congress, bill_type) SELECT * FROM bills_tmp.view_bill_actions;
-
-CREATE TABLE bills_actions (
+--This job should be executed from the default database
+CREATE TABLE IF NOT EXISTS bills.bills_actions (
     bill_id STRING,
     acted_at STRING,
     committee STRING,
@@ -41,5 +40,9 @@ as SELECT
     action.location,
     congress,
     bill_type
-FROM bills_tmp.bills_json
+FROM bills_external.bills_json
 LATERAL VIEW explode(actions) actions AS action;
+
+INSERT OVERWRITE TABLE bills.bills_actions PARTITION (congress, bill_type) SELECT * FROM view_bill_actions;
+
+DROP VIEW view_bill_actions; 

@@ -1,3 +1,5 @@
+-- TODO: Clean and comment
+
 CREATE TABLE bills.bills_overview_flat_thomas_ids (
     bill_id STRING,
     official_title STRING,

@@ -65,8 +65,7 @@ CREATE TABLE bills.votes_json (
     >
 )
 ROW FORMAT SERDE 'com.proofpoint.hive.serde.JsonSerde'
- WITH SERDEPROPERTIES ('errors.ignore' = 'true')
-;
+ WITH SERDEPROPERTIES ('errors.ignore' = 'true');
 
 LOAD DATA LOCAL INPATH '/mnt/new_data/votes.tar.bz2'
 OVERWRITE INTO TABLE bills.votes_json;

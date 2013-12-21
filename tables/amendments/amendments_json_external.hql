@@ -1,4 +1,5 @@
-CREATE EXTERNAL TABLE bills.amendments_json_external (
+-- This is the schema for a json amendment coming straight from govtrack's thomas.gov scraper.
+CREATE EXTERNAL TABLE IF NOT EXISTS bills_external.amendments_json (
     actions ARRAY<STRUCT<
         acted_at: STRING,
         references: ARRAY<STRING>,

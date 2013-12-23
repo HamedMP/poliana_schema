@@ -48,7 +48,7 @@ ROW FORMAT SERDE 'com.proofpoint.hive.serde.JsonSerde'
 LOCATION 's3n://polianaprod/entities/legislators_json/';
 
 
-CREATE VIEW entities_external.legislators_flat_terms (
+CREATE VIEW entities_external.view_legislators_flat_terms (
     first_name,
     last_name,
     official_full,

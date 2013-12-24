@@ -84,7 +84,7 @@ two-year election cycle.
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCommitteetoCommittee.shtml';
 
 
-CREATE TABLE IF NOT EXISTS fec.pac_to_candidate_contributions (
+CREATE TABLE fec.pac_to_candidate_contributions (
     cmte_id STRING COMMENT 'Filer Identification Number',
     amndt_ind STRING COMMENT 'Amendment Indicator Indicates if the report being filed is new (N), an amendment (A) to a previous report, or a termination (T) report.',
     rpt_tp STRING COMMENT 'Report Type Indicates the type of report filed. List of report type codes',
@@ -99,9 +99,11 @@ CREATE TABLE IF NOT EXISTS fec.pac_to_candidate_contributions (
     employer STRING COMMENT 'Employer',
     occupation STRING COMMENT 'Occupation',
     transaction_dt STRING COMMENT 'Transaction Date(MMDDYYYY)',
+    transaction_ts BIGINT COMMENT 'Transaction Date( unix timestamp)',
     transaction_amt INT COMMENT 'Transaction Amount',
     other_id STRING COMMENT 'Other Identification Number For contributions from individuals this column is null. For contributions from candidates or other committees this column will contain that contributors FEC ID.',
     cand_id STRING COMMENT 'Candidate Identification: Candidate receiving money from the filing committee',
+    bioguide_id STRING COMMENT 'NULL if the recipient is/was not a legislator',
     tran_id STRING COMMENT 'Transaction ID ONLY VALID FOR ELECTRONIC FILINGS. A unique identifier permanently associated with each itemization or transaction appearing in an FEC electronic file.',
     file_num INT COMMENT 'File Number / Report ID Unique report id',
     memo_code STRING COMMENT 'Memo Code X indicates that the amount is NOT to be included in the itemization total.',
@@ -111,7 +113,8 @@ CREATE TABLE IF NOT EXISTS fec.pac_to_candidate_contributions (
 COMMENT 'The contributions to candidates from committees table contains each contribution or independent expenditure made
 by a PAC, party committee, candidate committee, or other federal committee to a candidate during the two-year election cycle.
 
-- http://www.fec.gov/finance/disclosure/metadata/DataDictionaryContributionstoCandidates.shtml';
+- http://www.fec.gov/finance/disclosure/metadata/DataDictionaryContributionstoCandidates.shtml'
+PARTITIONED BY (cycle INT);
 
 
 CREATE TABLE IF NOT EXISTS fec.individual_contributions (

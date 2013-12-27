@@ -4,9 +4,9 @@
 #
 ####################################################################
 
-DROP TABLE IF EXISTS fec.pac_committee_master;
+DROP TABLE IF EXISTS fec.pac_committee_master_cycles;
 
-CREATE TABLE fec.pac_committee_master (
+CREATE TABLE fec.pac_committee_master_cycles (
     cmte_id STRING COMMENT 'Committee Identification',
     cmte_nm STRING COMMENT 'Committee Name',
     tres_nm STRING COMMENT 'Treasurer Name',
@@ -32,7 +32,7 @@ committee address. The file also includes information about what type of committ
  candidate ID number if it is a campaign committee.
 
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCommitteeMaster.shtml'
-PARTITIONED BY (congress INT);
+PARTITIONED BY (cycle INT);
 
 CREATE VIEW fec.view_pac_committee_master (
     cmte_id,
@@ -75,7 +75,7 @@ CREATE VIEW fec.view_pac_committee_master (
 FROM fec_external.pac_committee_master;
 
 -- Run job
-INSERT OVERWRITE TABLE fec.pac_committee_master PARTITION (cycle) SELECT * FROM fec.view_pac_committee_master;
+INSERT OVERWRITE TABLE fec.pac_committee_master_cycles PARTITION (cycle) SELECT * FROM fec.view_pac_committee_master;
 
 -- Clean up
 DROP VIEW fec.view_pac_committee_master;

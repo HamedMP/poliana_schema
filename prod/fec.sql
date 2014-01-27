@@ -84,7 +84,7 @@ two-year election cycle.
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCommitteetoCommittee.shtml';
 
 
-CREATE TABLE fec.pac_to_candidate_contributions (
+CREATE TABLE IF NOT EXISTS fec.pac_to_candidate_contributions (
     cmte_id STRING COMMENT 'Filer Identification Number',
     amndt_ind STRING COMMENT 'Amendment Indicator Indicates if the report being filed is new (N), an amendment (A) to a previous report, or a termination (T) report.',
     rpt_tp STRING COMMENT 'Report Type Indicates the type of report filed. List of report type codes',
@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS fec.individual_contributions (
     employer STRING COMMENT 'Employer',
     occupation STRING COMMENT 'Occupation',
     transaction_dt STRING COMMENT 'Transaction Date(MMDDYYYY)',
+    transaction_ts BIGINT COMMENT 'Transaction unix timestamp',
     transaction_amt INT COMMENT 'Transaction Amount',
     other_id STRING COMMENT 'Other Identification Number For contributions from individuals this column is null. For contributions from candidates or other committees this column will contain that contributors FEC ID.',
     tran_id STRING COMMENT 'Transaction ID ONLY VALID FOR ELECTRONIC FILINGS. A unique identifier permanently associated with each itemization or transaction appearing in an FEC electronic file.',
@@ -142,7 +143,8 @@ CREATE TABLE IF NOT EXISTS fec.individual_contributions (
 )
 COMMENT 'The individual contributions table contains each contribution from an individual to a federal committee if the contribution was at least $200.
 
-- http://www.fec.gov/finance/disclosure/metadata/DataDictionaryContributionsbyIndividuals.shtml';
+- http://www.fec.gov/finance/disclosure/metadata/DataDictionaryContributionsbyIndividuals.shtml'
+PARTITIONED BY (cycle INT);
 
 
 CREATE TABLE IF NOT EXISTS fec.pac_campaign_summaries_current (

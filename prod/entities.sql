@@ -1,4 +1,4 @@
-CREATE DATABASE entities_external;
+CREATE DATABASE entities;
 
 
 CREATE TABLE IF NOT EXISTS entities.candidate_ids(

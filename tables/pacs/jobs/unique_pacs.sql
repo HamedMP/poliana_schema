@@ -30,7 +30,8 @@ CREATE TABLE fec.pac_committee_master (
     cmte_filing_freq STRING COMMENT 'Filing Frequency',
     org_tp STRING COMMENT 'Interest Group Category',
     connected_org_nm STRING COMMENT 'Connected Organization Name',
-    cand_id STRING COMMENT 'Candidate ID' 
+    cand_id STRING COMMENT 'Candidate ID',
+    cycle INT
 )
 COMMENT 'This table contains one record for each committee registered with the Federal Election Commission.
 This includes federal political action committees and party committees, campaign committees for presidential,
@@ -41,7 +42,26 @@ committee address. The file also includes information about what type of committ
  candidate ID number if it is a campaign committee.
 
 - http://www.fec.gov/finance/disclosure/metadata/DataDictionaryCommitteeMaster.shtml'
-PARTITIONED BY (cycle INT);
+STORED AS PARQUETFILE;
+
+CREATE TABLE fec.pac_committee_master_uncompressed (
+    cmte_id STRING,
+    cmte_nm STRING,
+    tres_nm STRING,
+    cmte_st1 STRING,
+    cmte_st2 STRING,
+    cmte_city STRING,
+    cmte_st STRING,
+    cmte_zip STRING,
+    cmte_dsgn STRING,
+    cmte_tp STRING,
+    cmte_pty_affiliation STRING,
+    cmte_filing_freq STRING,
+    org_tp STRING,
+    connected_org_nm STRING,
+    cand_id STRING,
+    cycle INT
+);
 
 CREATE VIEW fec.view_pac_committee_master_cycles (
     cmte_id,
@@ -112,9 +132,16 @@ CREATE VIEW fec.view_pac_committee_master AS
     JOIN fec.view_pac_committee_master_cycles master ON unique.cmte_id = master.cmte_id;
 
 -- OUTPUT RESULTS
-INSERT OVERWRITE TABLE fec.pac_committee_master PARTITION (cycle) SELECT * FROM fec.view_pac_committee_master;
+INSERT OVERWRITE TABLE fec.pac_committee_master_uncompressed SELECT * FROM fec.view_pac_committee_master;
+
 
 -- CLEAN UP
 DROP VIEW fec.view_pac_committee_master;
 DROP VIEW fec.view_pac_committee_master_cycles;
+
 set  hive.auto.convert.join=true;
+
+
+-- IN IMPALA!!!!
+
+INSERT OVERWRITE TABLE fec.pac_committee_master SELECT * FROM fec.pac_committee_master_uncompressed;

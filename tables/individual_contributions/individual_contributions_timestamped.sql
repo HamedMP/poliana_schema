@@ -1,15 +1,4 @@
-####################################################################
-#
-#   CRP Individual Contributions: Selecting from the crp external 
-#   table, this job makes a managed table in HDFS that is partitioned
-#   by the congressional cycle and has added timestamp, year, and month
-#   fields.
-#
-####################################################################
-
-DROP TABLE IF EXISTS crp.individual_contributions;
-
-CREATE TABLE crp.individual_contributions (
+CREATE EXTERNAL TABLE crp_external.individual_contributions (
     cycle STRING,
     fec_trans_id STRING,
     contrib_id STRING,
@@ -18,8 +7,7 @@ CREATE TABLE crp.individual_contributions (
     org_name STRING,
     ult_org STRING,
     real_code STRING,
-    transaction_dt STRING,
-    transaction_ts BIGINT,
+    dates STRING,
     amount INT,
     street STRING,
     city STRING,
@@ -33,12 +21,14 @@ CREATE TABLE crp.individual_contributions (
     microfilm STRING,
     occupation STRING,
     employer STRING,
-    source STRING,
-    year INT, 
-    month INT
+    source STRING
 )
-PARTITIONED BY (congress INT);
-
+ROW FORMAT SERDE 'com.bizo.hive.serde.csv.CSVSerde'
+ WITH SERDEPROPERTIES (
+   "separatorChar" = ",",
+   "quoteChar"     = "|"
+  )
+LOCATION 's3n://poliana.prod/campaign_finance/crp/individual_contributions/';
 
 CREATE VIEW crp.view_individual_contributions (
     cycle,
@@ -102,6 +92,69 @@ CREATE VIEW crp.view_individual_contributions (
     END
 FROM crp_external.individual_contributions;
 
-INSERT OVERWRITE TABLE crp.individual_contributions PARTITION (congress) SELECT * FROM crp.view_individual_contributions;
+CREATE TABLE crp.individual_contributions_uncompressed (
+    cycle STRING,
+    fec_trans_id STRING,
+    contrib_id STRING,
+    contrib STRING,
+    recip_id STRING,
+    org_name STRING,
+    ult_org STRING,
+    real_code STRING,
+    transaction_dt STRING,
+    transaction_ts BIGINT,
+    amount INT,
+    street STRING,
+    city STRING,
+    state STRING,
+    zip STRING,
+    recip_code STRING,
+    type STRING,
+    cmtel_id STRING,
+    other_id STRING,
+    gender STRING,
+    microfilm STRING,
+    occupation STRING,
+    employer STRING,
+    source STRING,
+    year INT, 
+    month INT,
+    congress INT
+);
+
+INSERT OVERWRITE TABLE crp.individual_contributions_uncompressed SELECT * FROM crp.view_individual_contributions;
 
 DROP VIEW crp.view_individual_contributions;
+
+CREATE TABLE crp.individual_contributions (
+    cycle STRING,
+    fec_trans_id STRING,
+    contrib_id STRING,
+    contrib STRING,
+    recip_id STRING,
+    org_name STRING,
+    ult_org STRING,
+    real_code STRING,
+    transaction_dt STRING,
+    transaction_ts BIGINT,
+    amount INT,
+    street STRING,
+    city STRING,
+    state STRING,
+    zip STRING,
+    recip_code STRING,
+    type STRING,
+    cmtel_id STRING,
+    other_id STRING,
+    gender STRING,
+    microfilm STRING,
+    occupation STRING,
+    employer STRING,
+    source STRING,
+    year INT, 
+    month INT,
+    congress INT    
+)
+STORED AS PARQUETFILE;
+
+INSERT OVERWRITE TABLE crp.individual_contributions SELECT * FROM crp.individual_contributions_uncompressed;
